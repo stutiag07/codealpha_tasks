@@ -1,0 +1,19 @@
+# Suricata Custom Detection Rules
+
+# Rule 1: Detect HTTP Traffic Containing 'malware' Keyword
+alert http any any -> any any (msg:"Possible Malware Traffic Detected"; content:"malware"; nocase; sid:100001; rev:1;)
+
+# Rule 2: Detect SSH Brute Force Attempts
+alert tcp any any -> any 22 (msg:"SSH Brute Force Attempt"; flags:S; threshold:type both, track by_src, count 5, seconds 60; sid:100002; rev:1;)
+
+# Rule 3: Detect Access to Suspicious IP Address
+alert ip any any -> 192.168.1.100 any (msg:"Suspicious IP Access"; sid:100003; rev:1;)
+
+# Rule 4: Detect Large Outgoing DNS Requests
+alert udp any any -> any 53 (msg:"Unusually Large DNS Query"; content:"|00 00 29|"; sid:100004; rev:1;)
+
+# Rule 5: Detect Unauthorized Admin Panel Access
+alert http any any -> any any (msg:"Unauthorized Admin Panel Access"; content:"/admin"; nocase; sid:100005; rev:1;)
+
+# Rule 6: Detect Possible Data Exfiltration via HTTP
+alert http any any -> any any (msg:"Possible Data Exfiltration Detected"; content:"POST"; http_method; content:"/upload"; http_uri; sid:100006; rev:1;)
